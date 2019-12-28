@@ -8,8 +8,8 @@ inputDir = "C:\\Users\\Seb\\Desktop\\in";
 outputDir = "C:\\Users\\Seb\\Desktop\\out";
 
 // Parameters for Cytopacq time-lapse
-LapRad = 9;
-Thr = 0.05;
+laprad = 9;
+thr = 0.05;
 
 // Read arguments from command line
 arg = getArgument();
@@ -19,8 +19,8 @@ for(i=0; i<parts.length; i++)
 	nameAndValue = split(parts[i], "=");
 	if (indexOf(nameAndValue[0], "input")>-1) inputDir=nameAndValue[1];
 	if (indexOf(nameAndValue[0], "output")>-1) outputDir=nameAndValue[1];
-	if (indexOf(nameAndValue[0], "LapRad")>-1) LapRad=nameAndValue[1];
-	if (indexOf(nameAndValue[0], "Thr")>-1) Thr=nameAndValue[1];
+	if (indexOf(nameAndValue[0], "laprad")>-1) laprad=nameAndValue[1];
+	if (indexOf(nameAndValue[0], "thr")>-1) thr=nameAndValue[1];
 }
 
 images = getFileList(inputDir);
@@ -34,13 +34,13 @@ FileName = images[img];
 open(inputDir+File.separator+FileName);
 
 // Workflow
-run("FeatureJ Laplacian", "compute smoothing="+d2s(LapRad,0));
+run("FeatureJ Laplacian", "compute smoothing="+d2s(laprad,0));
 FilterID = getImageID();
 for(i=0;i<nSlices;i++)
 {
 	selectImage(FilterID);
 	setSlice(i+1);
-	run("Find Maxima...", "noise="+d2s(Thr,3)+" output=List exclude light");
+	run("Find Maxima...", "noise="+d2s(thr,3)+" output=List exclude light");
 	NewX = newArray(nResults);
 	NewY = newArray(nResults);
 	for(j=0;j<nResults;j++)
