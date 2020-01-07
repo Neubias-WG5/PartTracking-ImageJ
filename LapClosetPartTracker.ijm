@@ -92,8 +92,9 @@ for(i=0;i<nSlices;i++)
 
 // Save label mask
 selectImage(MaskID);
-//run("Bio-Formats Exporter", "save="+outputDir+File.separator+FileName+" compression=Uncompressed");
-save(outputDir+File.separator+FileName);
+run("Stack to Hyperstack...", "order=xyczt(default) channels=1 slices=1 frames="+d2s(nSlices,0)+" display=Grayscale");
+run("Bio-Formats Exporter", "save="+outputDir+File.separator+FileName+" compression=Uncompressed");
+//save(outputDir+File.separator+FileName);
 
 run("Close All");
 setBatchMode("exit & display");
