@@ -10,6 +10,7 @@ outputDir = "C:\\Users\\Seb\\Desktop\\out";
 // Parameters for Cytopacq time-lapse
 laprad = 9;
 thr = 0.05;
+maxlnkdst = 15;
 
 // Read arguments from command line
 arg = getArgument();
@@ -21,6 +22,7 @@ for(i=0; i<parts.length; i++)
 	if (indexOf(nameAndValue[0], "output")>-1) outputDir=nameAndValue[1];
 	if (indexOf(nameAndValue[0], "laprad")>-1) laprad=nameAndValue[1];
 	if (indexOf(nameAndValue[0], "thr")>-1) thr=nameAndValue[1];
+	if (indexOf(nameAndValue[0], "maxlnkdst")>-1) maxlnkdst=nameAndValue[1];
 }
 
 images = getFileList(inputDir);
@@ -63,6 +65,8 @@ for(i=0;i<nSlices;i++)
 		setSlice(i+1);
 		LastX_buf = newArray(NObjs);
 		LastY_buf = newArray(NObjs);
+		Buf = newArray(lengthOf(NewX));
+		for(k=0;k<lengthOf(NewX);k++)Buf[k] = 1/0;
 		for(j=0;j<NObjs;j++)
 		{
 			MinDst2 = 1/0;
@@ -70,9 +74,10 @@ for(i=0;i<nSlices;i++)
 			for(k=0;k<lengthOf(NewX);k++)
 			{
 				Dst2 = (pow(NewX[k]-LastX[j],2)+pow(NewY[k]-LastY[j],2));
-				if(Dst2<MinDst2)
+				if((Dst2<MinDst2)&&(Dst2<Buf[k])&&(Dst2<maxlnkdst*maxlnkdst))
 				{
 					MinDst2 = Dst2;
+					Buf[k] = Dst2;
 					Mink = k; 
 				}
 			}
@@ -91,7 +96,6 @@ selectImage(MaskID);
 save(outputDir+File.separator+FileName);
 
 run("Close All");
+setBatchMode("exit & display");
 
 }
-
-setBatchMode("exit & display");
