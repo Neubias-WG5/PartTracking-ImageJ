@@ -76,7 +76,7 @@ for(i=0;i<nSlices;i++)
 					Mink = k; 
 				}
 			}
-			setPixel(NewX[Mink],NewY[Mink],j);
+			setPixel(NewX[Mink],NewY[Mink],j+1);
 			LastX_buf[j] = NewX[Mink];
 			LastY_buf[j] = NewY[Mink];
 		}
