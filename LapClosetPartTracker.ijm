@@ -36,6 +36,7 @@ FileName = images[img];
 open(inputDir+File.separator+FileName);
 
 // Workflow
+run("Properties...", "channels=1 slices=1 frames="+nSlices);
 run("FeatureJ Laplacian", "compute smoothing="+d2s(laprad,0));
 FilterID = getImageID();
 for(i=0;i<nSlices;i++)
