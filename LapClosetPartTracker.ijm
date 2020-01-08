@@ -4,8 +4,8 @@
 // Date: 27/12/2019
 
 // Path to input image and results
-inputDir = "C:\\Users\\stosi\\Desktop\\BIAFLOWS_PartTracking\\in";
-outputDir = "C:\\Users\\stosi\\Desktop\\BIAFLOWS_PartTracking\\out";
+inputDir = "C:\\Users\\Seb\\Desktop\\in";
+outputDir = "C:\\Users\\Seb\\Desktop\\out";
 
 // Parameters for Cytopacq time-lapse
 laprad = 9;
@@ -75,11 +75,11 @@ for(i=0;i<nSlices;i++)
 			for(k=0;k<lengthOf(NewX);k++)
 			{
 				Dst2 = (pow(NewX[k]-LastX[j],2)+pow(NewY[k]-LastY[j],2));
-				if((Dst2<MinDst2)&&(Dst2<Buf[k])&&(Dst2<(maxlnkdst*maxlnkdst)))
+				if((Dst2<MinDst2)&&(Dst2<Buf[k])&&(Dst2<maxlnkdst*maxlnkdst))
 				{
 					MinDst2 = Dst2;
 					Buf[k] = Dst2;
-					Mink = k;
+					Mink = k; 
 				}
 			}
 			if(Mink>-1)
@@ -94,7 +94,7 @@ for(i=0;i<nSlices;i++)
 		// Check which particles were lost and ensure they will not be further linked
 		getHistogram(values, counts, 65536);
 		for(k=0;k<NObjs;k++)if(counts[k+1]==0)LastX[k] = 1/0;
-	}
+	}	
 }
 
 // Save label mask
@@ -104,7 +104,6 @@ run("Bio-Formats Exporter", "save="+outputDir+File.separator+FileName+" compress
 //save(outputDir+File.separator+FileName);
 
 run("Close All");
+setBatchMode("exit & display");
 
 }
-
-setBatchMode("exit & display");
